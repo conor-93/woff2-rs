@@ -165,6 +165,7 @@ pub struct TableDirectoryEntry {
     pub transformed: bool,
     pub tag: FourCC,
     /// The original length of the table (before any transformations)
+    #[allow(dead_code)] // TODO(conor)
     pub dest_length: u32,
     /// The length of the table in the decompressed table data
     pub src_length: u32,

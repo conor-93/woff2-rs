@@ -45,6 +45,7 @@ impl TryFrom<u32> for CollectionHeaderVersion {
 
 /// A WOFF2 collection directory.
 pub struct CollectionHeader {
+    #[allow(dead_code)] // TODO(conor)
     pub version: CollectionHeaderVersion,
     pub fonts: Vec<CollectionFontEntry>,
 }

@@ -18,6 +18,7 @@ pub enum Woff2HeaderError {
     OverlappingStreams,
 }
 
+#[allow(dead_code)] // TODO(conor)
 pub struct Woff2Header {
     pub signature: FourCC,
     pub flavor: FourCC,
