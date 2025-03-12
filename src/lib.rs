@@ -1,4 +1,5 @@
 #![doc = include_str!("../readme.md")]
+pub mod benchmark;
 pub mod decode;
 
 mod buffer_util;

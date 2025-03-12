@@ -34,3 +34,7 @@ web-sys = { version = "0.3.77", features = ["Window", "Performance", "console"] 
 # and a cdylib for WASM usage via wasm-bindgen.
 crate-type = ["rlib", "cdylib"]
 name = "woff2"
+
+[[bin]]
+name = "woff2-rs-android-benchmark-native"
+path = "src/bin/android_benchmark.rs"
