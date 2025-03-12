@@ -15,15 +15,43 @@
 **Full build/deploy**
 ```
 cargo ndk -t arm64-v8a build --release
-adb push target/aarch64-linux-android/release/woff2-rs-android-benchmark-native /data/local/tmp/
-adb shell chmod +x /data/local/tmp/woff2-rs-android-benchmark-native
+adb push target/aarch64-linux-android/release/woff2-rs-android-benchmark /data/local/tmp/
+adb shell chmod +x /data/local/tmp/woff2-rs-android-benchmark
 ```
 
-Copy asset files to device:
+**Copy asset files to device**
 - Create an asset store:	`adb shell mkdir -p /data/local/tmp/test_assets/`
 - Copy assets: 				`adb push test_assets/* /data/local/tmp/test_assets/`
 
 **Run**
 ```
-adb shell "cd /data/local/tmp && ./woff2-rs-android-benchmark-native"
+adb shell "cd /data/local/tmp && ./woff2-rs-android-benchmark"
 ```
+
+### WASM (Android)
+**Add wasi target** (requires Rust 1.84+)
+```
+rustup target add wasm32-wasip1
+```
+
+**Install Termux on device** (Use `adb shell getprop ro.product.cpu.abi` to check arch version to find the correct release APK)
+```
+curl -L -o termux.apk https://github.com/termux/termux-app/releases/latest/download/<RELEASE APK>
+adb install termux.apk
+```
+
+Open the device, and find/open the Termux app, and run these commands:
+- `pkg update`
+- `pkg install wasmtime`
+
+**Deploy the WASM binary to the device**
+```
+adb push target/wasm32-wasip1/release/woff2-rs-android-benchmark.wasm /data/local/tmp/
+```
+
+**Run**
+```
+adb shell wasmtime --dir /data/local/tmp/test_assets my-example-binary.wasm
+```
+- This uses the asset path that were copied during the Native steps (see above)
+- `--dir` allows `wasmtime` to use `std::fs` to access the filesystem, for specific directories only

@@ -36,5 +36,5 @@ crate-type = ["rlib", "cdylib"]
 name = "woff2"
 
 [[bin]]
-name = "woff2-rs-android-benchmark-native"
+name = "woff2-rs-android-benchmark"
 path = "src/bin/android_benchmark.rs"
