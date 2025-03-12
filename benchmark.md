@@ -1,7 +1,5 @@
 ### Native
-- Check `benchmark.rs#main` -> `test_assets_dir` (top of file) to see which folder WOFF2 fonts will be read from
-    - Directories are recursively searched (so, `"test_assets"` should get all existing fonts)
-- Through the IDE, run `cargo test --package woff2 --example decoder benchmark -- --exact` from root
+- Run `cargo test --package woff2 --release --example decoder benchmark -- --exact --nocapture`
 - Output TTF files are written to same location as source (in `test_assets_dir`)
 - Conversion latencies logged in `stdout`
 
