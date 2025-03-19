@@ -15,8 +15,7 @@ readme = "readme.md"
 # and pinned.
 [dependencies]
 brotli = { version = "=3.3.4", default-features = false, features = ["std"] }
-# See conor/slim-bytes-1.10.0-upgrade
-bytes = ">=1.0.1, <1.10.0"
+bytes = "1.10.0"
 four-cc = "0.4.0"
 safer-bytes = "0.2.0"
 thiserror = "1.0.63"

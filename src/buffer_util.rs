@@ -1,7 +1,9 @@
-use bytes::{Buf, BufMut};
+use bytes::{Buf, BufMut, TryGetError};
 use four_cc::FourCC;
 pub use safer_bytes::{error::Truncated as TruncatedError, SafeBuf};
 use thiserror::Error;
+use crate::woff2::collection_directory::CollectionHeaderError;
+use crate::woff2::table_directory::TableDirectoryError;
 
 #[derive(Error, Debug)]
 pub enum Base128Error {
@@ -18,6 +20,18 @@ pub enum Base128Error {
 impl From<TruncatedError> for Base128Error {
     fn from(_: TruncatedError) -> Base128Error {
         Base128Error::Truncated
+    }
+}
+
+impl From<TryGetError> for TableDirectoryError {
+    fn from(_: TryGetError) -> Self {
+        TableDirectoryError::Truncated
+    }
+}
+
+impl From<TryGetError> for CollectionHeaderError {
+    fn from(_: TryGetError) -> Self {
+        CollectionHeaderError::Truncated
     }
 }
 
