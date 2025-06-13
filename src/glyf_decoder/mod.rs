@@ -358,7 +358,7 @@ impl<'a> Woff2GlyfDecoder<'a, &'a [u8]> {
     fn parse_all_glyphs(&mut self) -> Result<(Vec<u8>, Vec<u8>), GlyfDecoderError> {
         let max_glyf_len_u16_index = u16::MAX as usize * 2;
         let loca_use_u32 = self.index_format > 0;
-        let loca_capacity = (self.num_glyphs + 1) as usize * if loca_use_u32 { 4 } else { 2 };
+        let loca_capacity = (self.num_glyphs as usize + 1) * if loca_use_u32 { 4 } else { 2 };
         let mut output_glyf_table: Vec<u8> = Vec::new();
         let mut output_loca_table: Vec<u8> = Vec::with_capacity(loca_capacity);
         for glyph_index in 0..self.num_glyphs {
