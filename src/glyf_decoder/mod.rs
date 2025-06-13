@@ -356,6 +356,7 @@ impl<'a> Woff2GlyfDecoder<'a, &'a [u8]> {
     }
 
     fn parse_all_glyphs(&mut self) -> Result<(Vec<u8>, Vec<u8>), GlyfDecoderError> {
+        let max_glyf_len_u16_index = u16::MAX as usize * 2;
         let loca_use_u32 = self.index_format > 0;
         let loca_capacity = (self.num_glyphs + 1) as usize * if loca_use_u32 { 4 } else { 2 };
         let mut output_glyf_table: Vec<u8> = Vec::new();
@@ -364,6 +365,14 @@ impl<'a> Woff2GlyfDecoder<'a, &'a [u8]> {
             if loca_use_u32 {
                 output_loca_table.put_u32(output_glyf_table.len().try_into().unwrap());
             } else {
+                if output_glyf_table.len() > max_glyf_len_u16_index {
+                    // Guard against infinite recursion
+                    if self.index_format == 1 {
+                        panic!("Infinite recursion!");
+                    }
+                    self.index_format = 1;
+                    return self.parse_all_glyphs();
+                }
                 output_loca_table.put_u16((output_glyf_table.len() / 2).try_into().unwrap());
             }
             self.parse_next_glyph(glyph_index, &mut output_glyf_table)?;
